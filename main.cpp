@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
-  filter::CLogReader log(sizeof(line));
+  filter::CLogReader log;
   if (!log.Open(argv[1])) {
     printf("Open filename %s error\n", argv[1]);
     return -1;

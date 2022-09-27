@@ -58,26 +58,31 @@ bool VerifyFilter(const char *filter) {
   return true;
 }
 
-bool MatchFilter(const char *line, const char *filter) {
+FilterState MatchFilter(const char *line, const char *filter) {
   const char *line_ptr = line;
   const char *filter_ptr = filter;
 
   while (true) {
+    // check if line length is bigger than buffer size
+    if (*line_ptr == '\0') {
+      return ABORTED;
+    }
     // check if line is ending
     if (*line_ptr == '\n') {
       while (*filter_ptr == '*') {
         filter_ptr++;
       }
       if (*filter_ptr == '\0') {
-        return true;
+        return MATCHED;
       }
-      return false;
+      return NOT_MATCHED;
     }
 
     // recursive call with shifted line
     if (*filter_ptr == '*') {
-      if (MatchFilter(line_ptr + 1, filter_ptr)) {
-        return true;
+      auto ret = MatchFilter(line_ptr + 1, filter_ptr);
+      if (ret > 0) {
+        return ret;
       }
       // skip trailing asterisks
       do {
@@ -99,25 +104,11 @@ bool MatchFilter(const char *line, const char *filter) {
       continue;
     }
 
-    return false;
+    return NOT_MATCHED;
   }
 }
 
-CLogReader::CLogReader(unsigned int line_length_max) {
-  if (line_length_max == 0) {
-    buffer_size_ = 4096;
-  } else {
-    buffer_size_ = line_length_max;
-  }
-  buffer_ = static_cast<char *>(malloc(buffer_size_));
-}
-
-CLogReader::~CLogReader() {
-  Close();
-  if (buffer_ != NULL) {
-    free(buffer_);
-  }
-}
+CLogReader::~CLogReader() { Close(); }
 
 bool CLogReader::Open(const char *filename) {
   stream_ = fopen(filename, "r");
@@ -149,20 +140,18 @@ bool CLogReader::GetNextLine(char *buf, const int bufsize) {
   if (stream_ == NULL) {
     return false;
   }
-  if (buffer_ == NULL) {
-    return false;
-  }
   while (true) {
-    char *line = fgets(buffer_, buffer_size_, stream_);
+    char *line = fgets(buf, bufsize, stream_);
     if (line == NULL) {
       return false;
     }
-    if (MatchFilter(line, filter_)) {
-      // check buffer size
-      if (strlen(line) >= bufsize) {
-        return false;
-      }
-      strncpy(buf, line, bufsize);
+    auto ret = MatchFilter(line, filter_);
+    if (ret == ABORTED) {
+      // buffer size is not enought
+      return false;
+    }
+    if (ret == MATCHED) {
+      // buffer is matched
       return true;
     }
   }

@@ -6,11 +6,13 @@ bool IsSpecialCharacter(char c);
 bool IsWordCharacter(char c);
 bool IsFilterCharacter(char c);
 bool VerifyFilter(const char *filter);
-bool MatchFilter(const char *line, const char *filter);
+
+enum FilterState { NOT_MATCHED = 0, MATCHED, ABORTED };
+FilterState MatchFilter(const char *line, const char *filter);
 
 class CLogReader {
 public:
-  CLogReader(unsigned int line_lenght_max = 4096);
+  CLogReader() = default;
   ~CLogReader();
 
   bool Open(const char *filename); // открытие файла, false - ошибка
@@ -22,8 +24,6 @@ public:
                                        // длина false - конец файла или ошибка
 private:
   FILE *stream_;
-  char *buffer_;
-  unsigned int buffer_size_;
   char *filter_;
 };
 
