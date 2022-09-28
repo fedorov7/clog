@@ -34,7 +34,52 @@
       }
     },
     {
-      "name": "windows",
+      "name": "windows-msvc-2015",
+      "inherits": "default",
+      "generator": "Visual Studio 14 2015",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "intelliSenseMode": "windows-msvc-x64",
+          "hostOS": [ "Windows" ]
+        }
+      }
+    },
+    {
+      "name": "windows-msvc-2017",
+      "inherits": "default",
+      "generator": "Visual Studio 15 2017",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "intelliSenseMode": "windows-msvc-x64",
+          "hostOS": [ "Windows" ]
+        }
+      }
+    },
+    {
+      "name": "windows-msvc-2019",
+      "inherits": "default",
+      "generator": "Visual Studio 16 2019",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "intelliSenseMode": "windows-msvc-x64",
+          "hostOS": [ "Windows" ]
+        }
+      }
+    },
+    {
+      "name": "windows-msvc-2022",
       "inherits": "default",
       "generator": "Visual Studio 17 2022",
       "architecture": {
@@ -44,7 +89,7 @@
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
           "intelliSenseMode": "windows-msvc-x64",
-          "hostOS": ["Windows"]
+          "hostOS": [ "Windows" ]
         }
       }
     }
@@ -56,21 +101,57 @@
       "configurePreset": "linux-debug"
     },
     {
+      "configurePreset": "linux-release",
       "name": "linux-release",
-      "targets": "install",
-      "configurePreset": "linux-release"
+      "targets": "install"
     },
     {
-      "name": "windows-debug",
-      "configurePreset": "windows",
-      "targets": "install",
-      "configuration": "Debug"
+      "configuration": "Debug",
+      "configurePreset": "windows-msvc-2015",
+      "name": "windows-msvc-2015-debug",
+      "targets": "install"
     },
     {
-      "name": "windows-release",
-      "configurePreset": "windows",
-      "targets": "install",
-      "configuration": "Release"
+      "configuration": "Release",
+      "configurePreset": "windows-msvc-2015",
+      "name": "windows-msvc-2015-release",
+      "targets": "install"
+    },
+    {
+      "configuration": "Debug",
+      "configurePreset": "windows-msvc-2017",
+      "name": "windows-msvc-2017-debug",
+      "targets": "install"
+    },
+    {
+      "configuration": "Release",
+      "configurePreset": "windows-msvc-2017",
+      "name": "windows-msvc-2017-release",
+      "targets": "install"
+    },
+    {
+      "configuration": "Debug",
+      "configurePreset": "windows-msvc-2019",
+      "name": "windows-msvc-2019-debug",
+      "targets": "install"
+    },
+    {
+      "configuration": "Release",
+      "configurePreset": "windows-msvc-2019",
+      "name": "windows-msvc-2019-release",
+      "targets": "install"
+    },
+    {
+      "configuration": "Debug",
+      "configurePreset": "windows-msvc-2022",
+      "name": "windows-msvc-2022-debug",
+      "targets": "install"
+    },
+    {
+      "configuration": "Release",
+      "configurePreset": "windows-msvc-2022",
+      "name": "windows-msvc-2022-release",
+      "targets": "install"
     }
   ]
 }
