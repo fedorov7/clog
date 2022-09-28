@@ -32,8 +32,8 @@ jobs:
       - name: Run CMake with Ninja
         uses: lukka/run-cmake@main
         with:
-          configurePreset: 'windows'
-          buildPreset: 'windows-release'
+          configurePreset: 'windows-msvc-2022'
+          buildPreset: 'windows-msvc-2022-release'
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
